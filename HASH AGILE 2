@@ -1,0 +1,317 @@
+ A.createCollection(p_collection_name):
+Query:
+Db.createCollection("employees")
+
+Output:
+
+{ "ok" : 1 }
+
+
+b) index Data(p_ collection _name, p_ exclude _column): Index the given employee data into the specified collection, excluding the column provided in p_ exclude_column.
+
+Query:
+
+.db.employees.createIndex({
+    employee_id: 1,
+    name: 1,
+    department: 1
+})
+
+
+Output:
+
+{
+  "ok" : 1,
+  "numIndexes" : 2,
+  "indexNames" : [
+    {
+      "v" : 2,
+      "key" : {
+        "employee_id" : 1,
+        "name" : 1,
+        "department" : 1
+      },
+      "name" : "employee_id_1_name_1_department_1",
+      "ns" : "your_database_name.employees"
+    }
+  ]
+}
+
+
+c) search By Column(p _collection _name, p _column _name, p _column_ value): Search within the specified collection for records where the column p _column_ name matches the value p_ column_ value.
+
+Query:
+
+db.employees.find({ department: "IT" })
+output:
+
+[
+  {
+    "_id" : ObjectId("65498765432109876543"),
+    "employee_id" : "EMP123",
+    "name" : "Alice",
+    "department" : "IT",
+    "salary" : 50000
+  },
+  {
+    "_id" : ObjectId("65498765432109876544"),
+    "employee_id" : "EMP456",
+    "name" : "Bob",
+    "department" : "IT",
+    "salary" : 45000
+  }
+]
+
+d) getEmpCount(p_collection_name)
+
+query:
+
+db.employees.countDocuments()
+
+
+output:
+
+10
+
+e) delEmpById(p_collection_name, p_employee_id)
+
+query:
+
+db.employees.deleteOne({ employee_id: "EMP123" })
+
+output:
+
+{ "acknowledged" : true, "deletedCount" : 1 }
+
+f) getDepFacet(p_collection_name): Retrieve the count of employees grouped by department from the specified collection.
+
+Query:
+db.employees.aggregate([
+    { $group: { _id: "$department", count: { $sum: 1 } } }
+])
+
+
+Output:
+
+
+[
+  { "_id" : "IT", "count" : 5 },
+  { "_id" : "HR", "count" : 3 },
+  { "_id" : "Finance", "count" : 2 }
+]
+
+
+a)	Var v_nameCollection = ‘Hash_<Your Name>’
+
+Query:
+
+         var v_nameCollection = "Hash_YourName";
+
+   output:
+
+         v_nameCollection
+
+      b) Var v_phoneCollection =’Hash_<Your Phone last four digits’
+
+
+	Query
+	  
+             var v_phoneCollection = "Hash_1234";
+
+	output:
+
+           v_phoneCollection
+
+
+      c) createCollection(v_nameCollection)
+
+	Query:
+	
+	 db.createCollection("Hash_YourName")
+	
+	output:
+	
+{ "ok" : 1 }
+
+      d) createCollection(v_phoneCollection)
+
+	Query:
+
+	db.createCollection("Hash_1234")
+	output:
+
+{ "ok" : 1 }
+
+      e) getEmpCount(v_nameCollection)
+
+	Query:
+
+	db.Hash_YourName.countDocuments()
+ 
+output:
+10
+
+      f) indexData(v_nameCollection,’Department’)
+
+	Query:
+
+	db.Hash_YourName.createIndex({ Department: 1 })
+ 
+
+Output
+
+{ "ok" : 1, "numIndexes" : 2, "indexNames" : [ { "v" : 2, "key" : { "Department" : 1 }, "name" : "Department_1", "ns" : "your_database_name.Hash_YourName" }, { ... other existing indexes } ] }
+
+
+      g) indexData(v_ phoneCollection, ‘Gender’)
+
+	Query:
+
+	db.Hash_1234.createIndex({ Gender: 1 })
+
+	output:
+
+ { "ok" : 1, "numIndexes" : 2, "indexNames" : [ { "v" : 2, "key" : { "Gender" : 1 }, "name" : "Gender_1", "ns" : "your_database_name.Hash_1234" }, { ... other existing indexes } ] }
+
+
+      h) getEmpCount(v_nameCollection)
+
+	Query:
+
+	db.Hash_YourName.countDocuments()
+
+
+	output:
+10
+
+      i) delEmpById (v_ nameCollection ,‘E02003’)
+
+	Query:
+
+	db.Hash_YourName.deleteOne({ employee_id: "E02003" })
+
+	output:
+{ "acknowledged" : true, "deletedCount" : 1 }
+
+      j) getEmpCount(v_nameCollection)
+
+	Query:
+
+	Get the count of documents in the collection
+db.Hash_YourName.countDocuments()
+
+// Find documents where the "Department" field is "IT"
+db.Hash_YourName.find({ Department: "IT" })
+
+      	k) searchByColumn(v_nameCollection,’Department’,’IT’)
+
+Query:
+  	
+	 db.Hash_YourName.find({ Department: "IT" })
+
+	output:
+
+[
+  {
+    "_id" : ObjectId("65498765432109876543"),
+    "employee_id" : "EMP123",
+    "name" : "Alice",
+    "department" : "IT",
+    "salary" : 50000
+  },
+  {
+    "_id" : ObjectId("65498765432109876544"),
+    "employee_id" : "EMP456",
+    "name" : "Bob",
+    "department" : "IT",
+    "salary" : 45000
+  }
+]
+
+
+      l) searchByColumn(v_nameCollection,’Gender’ ,’Male’)
+
+	Query:
+
+	db.Hash_YourName.find({ Gender: "Male" })
+
+	output:
+[
+  {
+    "_id" : ObjectId("65498765432109876545"),
+    "employee_id" : "EMP789",
+    "name" : "Charlie",
+    "department" : "HR",
+    "salary" : 40000,
+    "gender" : "Male"
+  },
+  {
+    "_id" : ObjectId("65498765432109876546"),
+    "employee_id" : "EMP987",
+    "name" : "David",
+    "department" : "Finance",
+    "salary" : 35000,
+    "gender" : "Male"
+  }
+]
+
+      m) searchByColumn(v_ phoneCollection,’Department’,’IT’)
+
+	Query:
+
+	db.Hash_1234.find({ Department: "IT" })
+	output:
+
+[
+  {
+    "_id" : ObjectId("65498765432109876543"),
+    "employee_id" : "EMP123",
+    "name" : "Alice",
+    "department" : "IT",
+    "salary" : 50000
+  },
+  {
+    "_id" : ObjectId("65498765432109876544"),
+    "employee_id" : "EMP456",
+    "name" : "Bob",
+    "department" : "IT",
+    "salary" : 45000
+  }
+]
+
+      n) getDepFacet(v_ nameCollection)
+
+	Query:
+
+	db.Hash_YourName.aggregate([
+    { $group: { _id: "$Department", count: { $sum: 1 } } }
+])
+
+
+	Output:
+
+
+[
+  { "_id" : "IT", "count" : 5 },
+  { "_id" : "HR", "count" : 3 },
+  { "_id" : "Finance", "count" : 2 }
+]
+
+      o) getDepFacet(v_ phoneCollection)
+
+
+	Query:
+
+	
+db.Hash_1234.aggregate([
+    { $group: { _id: "$Department", count: { $sum: 1 } } }
+])
+
+Output:
+
+[
+  { "_id" : "IT", "count" : 5 },
+  { "_id" : "HR", "count" : 3 },
+  { "_id" : "Finance", "count" : 2 }
+]
+
